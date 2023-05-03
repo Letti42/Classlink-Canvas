@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classlink Canvas</title>
+    <link rel="icon" id="favicon-placeholder" type="image/x-icon" href="public/painticon.ico">
+    <link rel="stylesheet" href="public/style.css">
+</head>
+
+<body>
+    <div>
+        <div class="flexInput">
+            <div>
+                <label>Width: </label>
+                <input class="width" style="flex: 1 1 auto;" type="number" placeholder="width">
+            </div>
+            <div>
+                <label>Height:</label>
+                <input class="height" type="number" placeholder="height">
+            </div>
+        </div>
+        <input type="color" class="color" onchange="activeColor = this.value" value="#ff0000" style="width:85%;">
+        <button class="clear">Clear</button>
+        <button class="submit">Go</button>
+        <script src="public/main.js"></script>
+        <script src="public/canvas.js"></script>
+</body>
+
+</html>
