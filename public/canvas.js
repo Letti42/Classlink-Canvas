@@ -36,8 +36,6 @@ canvas.onclick = function () {
     let px = activeCell[0];
     let py = activeCell[1];
 
-    console.log(activeCell);
-
     coloredCells[`${px},${py}`] = activeColor;
 
     var ctx = this.getContext("2d");
@@ -60,7 +58,6 @@ function getFill(cell) {
     rgb.b /= (100 / 92)
 
     let hex = rgbToHex(rgb.r, rgb.g, rgb.b);
-    console.log(hex);
     return hex;
 }
 
