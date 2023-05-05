@@ -1,5 +1,6 @@
 var gwsToken;
 var bearerToken;
+var baseFolderName = "zz_linkCV";
 
 function getToken(token) {
   let b64 = decompress(window.localStorage.getItem("_secure__ls__metadata"))
@@ -18,6 +19,80 @@ function getToken(token) {
 
 getToken("bearerToken")
 getToken("gwsToken");
+
+
+async function getApps(){
+    let response = await fetch("https://applications.apis.classlink.com/v1/applicationsPageLoad?", {
+      "headers": {
+        "authorization": "Bearer "+bearerToken,
+      },
+      "method": "GET",
+    })
+    let json = await response.json();
+    return json;
+}
+
+
+async function purgeFolders(){
+    let apps = await getApps();
+    console.log(apps);
+    let folders = apps.apps.filter(e=>{
+        return e.is_folder && e.name.includes(baseFolderName);
+    });
+    console.log(folders);
+
+    startDeletingHaha(folders, 0);
+
+}
+
+async function startDeletingHaha(folders, index){
+    await fetch(`https://nodeapi.classlink.com/applications/folders/${folders[index].id}?`, {
+      "headers": {
+        "gwstoken": gwsToken,
+      },
+      "method": "DELETE",
+    });
+    console.log("Finished: "+folders[index].name +" @ "+index);
+    return folders.length-1 > index? startDeletingHaha(folders, index+1): console.log("Finished! You can refresh now.");
+}
+
+
+async function createFolder(name, color){
+    let response = await fetch("https://nodeapi.classlink.com/applications/folders?b304="+Date.now(), {
+  "headers": {
+    "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+    "gwstoken": gwsToken,
+  },
+  "body": `name=${name}&color=%23${color}`,
+  "method": "POST",
+    });
+
+    let json = await response.json();
+
+    if(json.status){
+        console.log("Success: "+name);
+        return 1;
+    }else return 0;
+
+}
+
+async function updateFolder(folder, color){
+    let res = await fetch(`https://nodeapi.classlink.com/applications/folders/${folder.id}?b304=${Date.now()}`, {
+      "headers": {
+        "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+        "gwstoken": "ff4cff82-9ba8-4c6a-b59e-1d70c8a90e26",
+      },
+      "body": `name=${folder.name}&color=%23${color}`,
+      "method": "PUT",
+    });
+
+    let json = await res.json();
+
+    if(json.status){
+        console.log("Success: "+folder.name);
+        return 1;
+    }else return 0;
+}
 
 
 
