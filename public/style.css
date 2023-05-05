@@ -13,3 +13,16 @@ label{
 input{
     width:50px;
 }
+
+.buttonCool{
+    width:200px;
+    height:30px;
+}
+
+textarea{
+    resize:none;
+    width:50%;
+    height:200px;
+    font-size:10px;
+    white-space: pre-wrap;
+}
