@@ -1,20 +1,23 @@
 var gwsToken;
+var bearerToken;
 
-function getGwsToken() {
+function getToken(token) {
   let b64 = decompress(window.localStorage.getItem("_secure__ls__metadata"))
   let data = JSON.parse(window.atob(b64));
-  let key = data.keys.filter(e => {return e.k === 'gwsToken'})[0].s;
+  let key = data.keys.filter(e => {return e.k === token})[0].s;
 
   let coolEnc = coolBeans({ "exports": {}, "id": 69, "loaded": false }, {});
   let smartEnc = encryptlib({ "exports": {}, "id": 420, "loaded": false }, {});
 
   let decrypt = smartEnc.Cipher._createHelper(key).decrypt;
 
-  let bytes = decrypt(window.localStorage.getItem("gwsToken"), key);
-  gwsToken = bytes.toString(utfme()._Utf8).replace(/[\"]/g, "");
+  let bytes = decrypt(window.localStorage.getItem(token), key);
+  window[token] = bytes.toString(utfme()._Utf8).replace(/[\"]/g, "");
 
 }
 
+getToken("bearerToken")
+getToken("gwsToken");
 
 
 
